@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stillroom — Your daily pause in the heart of Helsinki</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --forest: #2C3E2D;
+    --forest-light: #3a5c3b;
+    --forest-dark: #1e2b1e;
+    --linen: #E8DDD3;
+    --linen-light: #f4efe9;
+    --linen-dark: #d4c4b4;
+    --white: #ffffff;
+    --text-dark: #1a1a1a;
+    --text-mid: #4a4a4a;
+    --text-light: #7a7a7a;
+    --accent: #b8956a;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--linen-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Playfair Display', serif;
+    line-height: 1.2;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(44, 62, 45, 0.97);
+    backdrop-filter: blur(12px);
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 68px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.45rem;
+    color: var(--linen);
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    font-weight: 400;
+  }
+
+  .nav-logo span {
+    color: var(--accent);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+    align-items: center;
+  }
+
+  .nav-links a {
+    color: rgba(232,221,211,0.75);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--linen); }
+
+  .nav-cta {
+    background: var(--accent) !important;
+    color: var(--white) !important;
+    padding: 9px 20px;
+    border-radius: 4px;
+    font-weight: 500 !important;
+    text-transform: none !important;
+    letter-spacing: 0.02em !important;
+    font-size: 0.875rem !important;
+    transition: background 0.2s !important;
+  }
+
+  .nav-cta:hover { background: #a07850 !important; }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--linen);
+    border-radius: 2px;
+    transition: 0.3s;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    background: var(--forest);
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 100px 32px 80px;
+  }
+
+  .hero-bg-circles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .hero-bg-circles::before {
+    content: '';
+    position: absolute;
+    top: -120px; right: -120px;
+    width: 520px; height: 520px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(184,149,106,0.12) 0%, transparent 70%);
+  }
+
+  .hero-bg-circles::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: -80px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,221,211,0.06) 0%, transparent 70%);
+  }
+
+  .hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .hero-left {}
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(184,149,106,0.18);
+    border: 1px solid rgba(184,149,106,0.3);
+    color: var(--accent);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    border-radius: 40px;
+    margin-bottom: 28px;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    color: var(--linen);
+    font-weight: 400;
+    margin-bottom: 12px;
+    line-height: 1.15;
+  }
+
+  .hero h1 em {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  .hero-tagline {
+    font-size: 1.1rem;
+    color: rgba(232,221,211,0.65);
+    margin-bottom: 28px;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+  }
+
+  .hero-desc {
+    font-size: 1rem;
+    color: rgba(232,221,211,0.75);
+    max-width: 480px;
+    margin-bottom: 44px;
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 52px;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--white);
+    padding: 14px 28px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    transition: background 0.2s, transform 0.15s;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { background: #a07850; transform: translateY(-1px); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--linen);
+    padding: 14px 28px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    border: 1px solid rgba(232,221,211,0.3);
+    transition: border-color 0.2s, background 0.2s;
+    display: inline-block;
+  }
+
+  .btn-outline:hover { border-color: var(--linen); background: rgba(232,221,211,0.06); }
+
+  .hero-meta {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .hero-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .hero-meta-label {
+    font-size: 0.72rem;
+    color: rgba(232,221,211,0.45);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .hero-meta-value {
+    font-size: 0.88rem;
+    color: rgba(232,221,211,0.8);
+    font-weight: 400;
+  }
+
+  /* Hero visual */
+  .hero-right {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+  }
+
+  .hero-card-main {
+    background: rgba(232,221,211,0.06);
+    border: 1px solid rgba(232,221,211,0.1);
+    border-radius: 16px;
+    padding: 36px 32px;
+    backdrop-filter: blur(8px);
+  }
+
+  .hero-card-main h3 {
+    font-family: 'Playfair Display', serif;
+    color: var(--linen);
+    font-size: 1.25rem;
+    font-weight: 400;
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+
+  .menu-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(232,221,211,0.1);
+  }
+
+  .menu-item:last-child { border-bottom: none; }
+
+  .menu-item-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .menu-item-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .menu-item-name {
+    font-size: 0.875rem;
+    color: var(--linen);
+    font-weight: 400;
+  }
+
+  .menu-item-tag {
+    font-size: 0.7rem;
+    background: rgba(184,149,106,0.2);
+    color: var(--accent);
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.04em;
+  }
+
+  .hero-cards-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .hero-card-small {
+    background: rgba(232,221,211,0.05);
+    border: 1px solid rgba(232,221,211,0.09);
+    border-radius: 12px;
+    padding: 20px 18px;
+    text-align: center;
+  }
+
+  .hero-card-small .icon { font-size: 1.6rem; margin-bottom: 8px; }
+  .hero-card-small p { font-size: 0.78rem; color: rgba(232,221,211,0.6); line-height: 1.4; }
+
+  /* AMBIENT STRIP */
+  .ambient-strip {
+    background: var(--accent);
+    padding: 18px 32px;
+    text-align: center;
+    font-size: 0.82rem;
+    color: var(--white);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* SECTION COMMON */
+  section {
+    padding: 100px 32px;
+  }
+
+  .section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .section-tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+
+  .section-title {
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 400;
+    color: var(--forest);
+    margin-bottom: 16px;
+  }
+
+  .section-subtitle {
+    font-size: 1rem;
+    color: var(--text-mid);
+    max-width: 560px;
+    line-height: 1.75;
+    font-weight: 300;
+    margin-bottom: 56px;
+  }
+
+  /* ABOUT / PHILOSOPHY */
+  .philosophy {
+    background: var(--white);
+  }
+
+  .philosophy-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .philosophy-left {}
+
+  .philosophy-body {
+    font-size: 1rem;
+    color: var(--text-mid);
+    line-height: 1.85;
+    font-weight: 300;
+    margin-bottom: 24px;
+  }
+
+  .philosophy-body + .philosophy-body { margin-top: 0; }
+
+  .philosophy-pillars {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 36px;
+  }
+
+  .pillar {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 20px;
+    background: var(--linen-light);
+    border-radius: 10px;
+    border-left: 3px solid var(--accent);
+  }
+
+  .pillar-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 2px; }
+
+  .pillar-text h4 {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--forest);
+    margin-bottom: 3px;
+  }
+
+  .pillar-text p {
+    font-size: 0.82rem;
+    color: var(--text-light);
+    line-height: 1.5;
+  }
+
+  .philosophy-right {
+    position: relative;
+  }
+
+  .philosophy-visual {
+    background: var(--forest);
+    border-radius: 20px;
+    padding: 48px 40px;
+    color: var(--linen);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .philosophy-visual::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 240px; height: 240px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(184,149,106,0.15) 0%, transparent 70%);
+  }
+
+  .philosophy-visual blockquote {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-style: italic;
+    color: var(--linen);
+    line-height: 1.5;
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .philosophy-visual blockquote::before {
+    content: '"';
+    font-size: 4rem;
+    color: var(--accent);
+    opacity: 0.4;
+    line-height: 0;
+    vertical-align: -1.2rem;
+    margin-right: 4px;
+    font-family: 'Playfair Display', serif;
+  }
+
+  .philosophy-hours {
+    position: relative;
+    z-index: 1;
+    margin-top: 32px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(232,221,211,0.15);
+  }
+
+  .philosophy-hours h4 {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+
+  .hours-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: rgba(232,221,211,0.7);
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(232,221,211,0.07);
+  }
+
+  .hours-row:last-child { border-bottom: none; }
+  .hours-row span:first-child { font-weight: 400; color: rgba(232,221,211,0.9); }
+
+  /* OFFERINGS */
+  .offerings {
+    background: var(--linen-light);
+  }
+
+  .offerings-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .offering-card {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 32px 28px;
+    border: 1px solid rgba(44,62,45,0.07);
+    transition: transform 0.25s, box-shadow 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .offering-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+
+  .offering-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(44,62,45,0.1); }
+  .offering-card:hover::after { opacity: 1; }
+
+  .offering-icon {
+    font-size: 2rem;
+    margin-bottom: 18px;
+    display: block;
+  }
+
+  .offering-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: var(--forest);
+    margin-bottom: 10px;
+  }
+
+  .offering-card p {
+    font-size: 0.875rem;
+    color: var(--text-mid);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* MEMBERSHIP */
+  .membership {
+    background: var(--forest);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .membership::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(184,149,106,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .membership .section-title { color: var(--linen); }
+  .membership .section-subtitle { color: rgba(232,221,211,0.65); }
+
+  .membership-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  .membership-left {}
+
+  .membership-perks {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 36px;
+  }
+
+  .perk {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .perk-check {
+    width: 22px; height: 22px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+    font-size: 0.7rem;
+    color: var(--white);
+  }
+
+  .perk-text {
+    font-size: 0.9rem;
+    color: rgba(232,221,211,0.8);
+    line-height: 1.5;
+    font-weight: 300;
+  }
+
+  .perk-text strong {
+    color: var(--linen);
+    font-weight: 500;
+  }
+
+  .membership-right {
+    background: rgba(232,221,211,0.06);
+    border: 1px solid rgba(232,221,211,0.12);
+    border-radius: 20px;
+    padding: 44px 40px;
+    backdrop-filter: blur(8px);
+  }
+
+  .membership-right h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--linen);
+    margin-bottom: 8px;
+    font-weight: 400;
+  }
+
+  .membership-right p.sub {
+    font-size: 0.875rem;
+    color: rgba(232,221,211,0.5);
+    margin-bottom: 28px;
+    font-weight: 300;
+  }
+
+  .membership-form input[type="email"],
+  .membership-form input[type="text"] {
+    width: 100%;
+    padding: 14px 16px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(232,221,211,0.18);
+    border-radius: 6px;
+    color: var(--linen);
+    font-size: 0.9rem;
+    font-family: 'Inter', sans-serif;
+    margin-bottom: 12px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .membership-form input::placeholder { color: rgba(232,221,211,0.3); }
+  .membership-form input:focus { border-color: var(--accent); }
+
+  .membership-form .btn-primary {
+    width: 100%;
+    text-align: center;
+    padding: 15px;
+    font-size: 0.9rem;
+    border-radius: 6px;
+    margin-top: 4px;
+  }
+
+  .form-note {
+    font-size: 0.75rem;
+    color: rgba(232,221,211,0.35);
+    margin-top: 14px;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  /* EXPERIENCE */
+  .experience {
+    background: var(--white);
+  }
+
+  .experience-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .experience-left {}
+
+  .ritual-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 16px;
+  }
+
+  .ritual-step {
+    display: flex;
+    gap: 20px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--linen-dark);
+  }
+
+  .ritual-step:last-child { border-bottom: none; }
+
+  .ritual-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--accent);
+    opacity: 0.5;
+    font-weight: 400;
+    flex-shrink: 0;
+    width: 32px;
+    line-height: 1;
+    padding-top: 2px;
+  }
+
+  .ritual-content h4 {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--forest);
+    margin-bottom: 5px;
+  }
+
+  .ritual-content p {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  .experience-right {}
+
+  .location-card {
+    background: var(--linen-light);
+    border-radius: 16px;
+    padding: 36px 32px;
+    margin-bottom: 20px;
+  }
+
+  .location-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--forest);
+    margin-bottom: 16px;
+    font-weight: 400;
+  }
+
+  .location-detail {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+    font-size: 0.875rem;
+    color: var(--text-mid);
+    font-weight: 300;
+  }
+
+  .location-detail-icon {
+    font-size: 1rem;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .atmosphere-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 24px;
+  }
+
+  .atm-tag {
+    font-size: 0.78rem;
+    padding: 6px 14px;
+    background: var(--white);
+    border: 1px solid rgba(44,62,45,0.12);
+    border-radius: 30px;
+    color: var(--forest);
+    font-weight: 400;
+  }
+
+  .work-card {
+    background: var(--forest);
+    border-radius: 16px;
+    padding: 32px;
+    color: var(--linen);
+  }
+
+  .work-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--linen);
+    margin-bottom: 14px;
+    font-weight: 400;
+  }
+
+  .work-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .work-feat {
+    font-size: 0.78rem;
+    padding: 6px 13px;
+    background: rgba(232,221,211,0.1);
+    border: 1px solid rgba(232,221,211,0.12);
+    border-radius: 30px;
+    color: rgba(232,221,211,0.75);
+  }
+
+  /* FAQ */
+  .faq {
+    background: var(--linen-light);
+  }
+
+  .faq-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .faq-item {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 28px 24px;
+    border: 1px solid rgba(44,62,45,0.07);
+  }
+
+  .faq-item h4 {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--forest);
+    margin-bottom: 10px;
+  }
+
+  .faq-item p {
+    font-size: 0.85rem;
+    color: var(--text-mid);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* FINAL CTA */
+  .final-cta {
+    background: var(--forest);
+    text-align: center;
+    padding: 100px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .final-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(184,149,106,0.12) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .final-cta h2 {
+    font-size: clamp(1.9rem, 4vw, 3rem);
+    color: var(--linen);
+    font-weight: 400;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .final-cta h2 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .final-cta p {
+    font-size: 1rem;
+    color: rgba(232,221,211,0.65);
+    max-width: 500px;
+    margin: 0 auto 40px;
+    font-weight: 300;
+    line-height: 1.75;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-form {
+    display: flex;
+    gap: 12px;
+    max-width: 420px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-form input[type="email"] {
+    flex: 1;
+    min-width: 220px;
+    padding: 14px 18px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(232,221,211,0.2);
+    border-radius: 5px;
+    color: var(--linen);
+    font-size: 0.9rem;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .cta-form input:focus { border-color: var(--accent); }
+  .cta-form input::placeholder { color: rgba(232,221,211,0.3); }
+
+  .cta-form .btn-primary {
+    padding: 14px 24px;
+    white-space: nowrap;
+  }
+
+  .cta-note {
+    font-size: 0.75rem;
+    color: rgba(232,221,211,0.3);
+    margin-top: 14px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--forest-dark);
+    padding: 52px 32px 32px;
+  }
+
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+  }
+
+  .footer-brand {}
+
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--linen);
+    margin-bottom: 12px;
+    font-weight: 400;
+    display: block;
+  }
+
+  .footer-logo span { color: var(--accent); }
+
+  .footer-desc {
+    font-size: 0.85rem;
+    color: rgba(232,221,211,0.45);
+    line-height: 1.75;
+    max-width: 280px;
+    font-weight: 300;
+    margin-bottom: 20px;
+  }
+
+  .footer-address {
+    font-size: 0.8rem;
+    color: rgba(232,221,211,0.4);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  .footer-col h4 {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(232,221,211,0.45);
+    margin-bottom: 16px;
+  }
+
+  .footer-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-col ul li a {
+    text-decoration: none;
+    font-size: 0.85rem;
+    color: rgba(232,221,211,0.55);
+    transition: color 0.2s;
+    font-weight: 300;
+  }
+
+  .footer-col ul li a:hover { color: var(--linen); }
+
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 24px;
+    border-top: 1px solid rgba(232,221,211,0.07);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-bottom p {
+    font-size: 0.78rem;
+    color: rgba(232,221,211,0.3);
+    font-weight: 300;
+  }
+
+  .footer-bottom a {
+    color: rgba(184,149,106,0.7);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-bottom a:hover { color: var(--accent); }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .nav-links.open {
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 68px; left: 0; right: 0;
+      background: var(--forest);
+      padding: 24px 32px;
+      gap: 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .hamburger { display: flex; }
+
+    .hero-inner {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+
+    .hero-right { display: none; }
+
+    .philosophy-grid,
+    .membership-grid,
+    .experience-columns {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .offerings-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .faq-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .footer-inner {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .footer-brand { grid-column: 1 / -1; }
+  }
+
+  @media (max-width: 600px) {
+    section { padding: 72px 20px; }
+    nav { padding: 0 20px; }
+
+    .offerings-grid { grid-template-columns: 1fr; }
+
+    .footer-inner { grid-template-columns: 1fr; }
+
+    .hero { padding: 100px 20px 72px; }
+
+    .hero-actions { flex-direction: column; }
+    .btn-primary, .btn-outline { text-align: center; }
+
+    .cta-form { flex-direction: column; }
+    .cta-form input, .cta-form .btn-primary { width: 100%; }
+
+    .philosophy-visual blockquote { font-size: 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">Still<span>room</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#offerings">Menu & Space</a></li>
+    <li><a href="#membership">Membership</a></li>
+    <li><a href="#experience">Find Us</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#join" class="nav-cta">Join the community</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg-circles"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-badge">Now open in Helsinki · Siri Center</div>
+      <h1>Your daily pause<br>in the heart of<br><em>Helsinki</em></h1>
+      <p class="hero-tagline">A modern wellness café and intentional third place</p>
+      <p class="hero-desc">Specialty coffee, adaptogen drinks, and healthy bites in a beautifully calm Scandinavian space — designed for urban professionals, creatives, and remote workers who value mindful moments.</p>
+      <div class="hero-actions">
+        <a href="#membership" class="btn-primary">Explore Membership</a>
+        <a href="#offerings" class="btn-outline">See the menu</a>
+      </div>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Location</span>
+          <span class="hero-meta-value">Siri Center, Helsinki</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Open daily</span>
+          <span class="hero-meta-value">7:00 – 20:00</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Wifi & Quiet zones</span>
+          <span class="hero-meta-value">Always available</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-card-main">
+        <h3>Today's featured drinks</h3>
+        <div class="menu-preview">
+          <div class="menu-item">
+            <div class="menu-item-left">
+              <div class="menu-item-dot"></div>
+              <span class="menu-item-name">Single-Origin Pour Over</span>
+            </div>
+            <span class="menu-item-tag">Signature</span>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-left">
+              <div class="menu-item-dot"></div>
+              <span class="menu-item-name">Ceremonial Matcha Latte</span>
+            </div>
+            <span class="menu-item-tag">Wellness</span>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-left">
+              <div class="menu-item-dot"></div>
+              <span class="menu-item-name">Ashwagandha Golden Milk</span>
+            </div>
+            <span class="menu-item-tag">Adaptogen</span>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-left">
+              <div class="menu-item-dot"></div>
+              <span class="menu-item-name">Nordic Berry Loose-Leaf Tea</span>
+            </div>
+            <span class="menu-item-tag">Seasonal</span>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-left">
+              <div class="menu-item-dot"></div>
+              <span class="menu-item-name">Reishi Mushroom Cacao</span>
+            </div>
+            <span class="menu-item-tag">Adaptogen</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-cards-row">
+        <div class="hero-card-small">
+          <div class="icon">🌿</div>
+          <p>Locally sourced ingredients, seasonal menu updates</p>
+        </div>
+        <div class="hero-card-small">
+          <div class="icon">💻</div>
+          <p>Dedicated quiet work zones with high-speed WiFi</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AMBIENT STRIP -->
+<div class="ambient-strip">
+  ☕ &nbsp; Specialty Coffee &nbsp; · &nbsp; 🌿 Adaptogen Drinks &nbsp; · &nbsp; 🥐 Healthy Bites &nbsp; · &nbsp; 💻 Work Zones &nbsp; · &nbsp; 🎶 Weekly Events &nbsp; · &nbsp; 🪪 Monthly Membership
+</div>
+
+<!-- PHILOSOPHY -->
+<section class="philosophy" id="about">
+  <div class="section-inner">
+    <div class="philosophy-grid">
+      <div class="philosophy-left">
+        <span class="section-tag">Why Stillroom exists</span>
+        <h2 class="section-title">A space designed around<br>your wellbeing</h2>
+        <p class="philosophy-body">Helsinki is full of energy — but finding a space where you can truly slow down, think clearly, and recharge has always been harder than it should be. Stillroom was built to change that.</p>
+        <p class="philosophy-body">We believe the quality of your daily rituals shapes the quality of your life. When your coffee break becomes a genuine pause — unhurried, beautiful, intentional — everything else gets a little better.</p>
+
+        <div class="philosophy-pillars">
+          <div class="pillar">
+            <div class="pillar-icon">☕</div>
+            <div class="pillar-text">
+              <h4>Craft without compromise</h4>
+              <p>Every drink is prepared by trained baristas using single-origin, ethically sourced ingredients.</p>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon">🌿</div>
+            <div class="pillar-text">
+              <h4>Design that calms</h4>
+              <p>Natural wood, living plants, soft light — every detail of the interior is chosen to lower your cortisol, not raise it.</p>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon">🤝</div>
+            <div class="pillar-text">
+              <h4>Community, not just customers</h4>
+              <p>From coffee tastings to mindfulness mornings, we host events that bring curious, like-minded people together.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="philosophy-right">
+        <div class="philosophy-visual">
+          <blockquote>More than a café — it's a daily ritual of calm between home and work.</blockquote>
+          <p style="font-size:0.85rem; color:rgba(232,221,211,0.55); line-height:1.7; font-weight:300;">Stillroom is the intentional third place you've been looking for. A carefully held space at the Siri Center in Helsinki's city heart — accessible, unhurried, and beautifully yours.</p>
+          <div class="philosophy-hours">
+            <h4>Opening Hours</h4>
+            <div class="hours-row"><span>Monday – Friday</span><span>7:00 – 20:00</span></div>
+            <div class="hours-row"><span>Saturday</span><span>8:00 – 19:00</span></div>
+            <div class="hours-row"><span>Sunday</span><span>9:00 – 17:00</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OFFERINGS -->
+<section class="offerings" id="offerings">
+  <div class="section-inner">
+    <span class="section-tag">What we offer</span>
+    <h2 class="section-title">Everything you need for a<br>perfect daily ritual</h2>
+    <p class="section-subtitle">Six thoughtfully designed pillars that make Stillroom more than a café — they make it a place you'll genuinely want to return to every day.</p>
+
+    <div class="offerings-grid">
+      <div class="offering-card">
+        <span class="offering-icon">☕</span>
+        <h3>Signature Beverage Menu</h3>
+        <p>Specialty single-origin coffees, curated loose-leaf teas, matcha lattes, golden milk, and adaptogen-infused drinks crafted by trained baristas who take their work seriously.</p>
+      </div>
+      <div class="offering-card">
+        <span class="offering-icon">🌿</span>
+        <h3>Calm-By-Design Interior</h3>
+        <p>Scandinavian minimalist space with natural wood, living plants, soft lighting, and curated ambient soundscapes — an environment engineered for focus, rest, and creative thinking.</p>
+      </div>
+      <div class="offering-card">
+        <span class="offering-icon">💻</span>
+        <h3>Work & Create Zones</h3>
+        <p>Dedicated quiet work areas with high-speed WiFi, USB charging, and bookable meeting nooks — designed for remote workers and freelancers who need a professional, calm environment.</p>
+      </div>
+      <div class="offering-card">
+        <span class="offering-icon">🪪</span>
+        <h3>Stillroom Membership</h3>
+        <p>Monthly subscription offering unlimited filter coffee and tea, priority seating, member-only events, and 10% off all menu items — the best way to make Stillroom your home base.</p>
+      </div>
+      <div class="offering-card">
+        <span class="offering-icon">🥐</span>
+        <h3>Healthy Light Bites</h3>
+        <p>Freshly made pastries, Nordic-inspired open sandwiches, seasonal salads, and plant-based options sourced from local Finnish suppliers — nourishing without being heavy.</p>
+      </div>
+      <div class="offering-card">
+        <span class="offering-icon">🎶</span>
+        <h3>Community & Events</h3>
+        <p>Weekly curated events including coffee tastings, book clubs, mindfulness mornings, and local artist showcases — ways to connect with Helsinki's most thoughtful community of regulars.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MEMBERSHIP -->
+<section class="membership" id="membership">
+  <div class="section-inner">
+    <div class="membership-grid">
+      <div class="membership-left">
+        <span class="section-tag" style="color: var(--accent);">Stillroom Membership</span>
+        <h2 class="section-title" style="color: var(--linen);">Make every day<br>a little more<br><em style="font-style:italic; color: var(--accent);">intentional</em></h2>
+        <p class="section-subtitle" style="color: rgba(232,221,211,0.6);">The Stillroom membership is built for the regulars — those who've found their ritual and want to lean all the way in.</p>
+
+        <div class="membership-perks">
+          <div class="perk">
+            <div class="perk-check">✓</div>
+            <p class="perk-text"><strong>Unlimited filter coffee & tea</strong> — your daily ritual, on us</p>
+          </div>
+          <div class="perk">
+            <div class="perk-check">✓</div>
+            <p class="perk-text"><strong>Priority seating</strong> — your favourite spot, always available</p>
+          </div>
+          <div class="perk">
+            <div class="perk-check">✓</div>
+            <p class="perk-text"><strong>10% off</strong> everything on the menu, every visit</p>
+          </div>
+          <div class="perk">
+            <div class="perk-check">✓</div>
+            <p class="perk-text"><strong>Member-only events</strong> — tastings, workshops, early previews</p>
+          </div>
+          <div class="perk">
+            <div class="perk-check">✓</div>
+            <p class="perk-text"><strong>Bookable meeting nooks</strong> — quiet space, when you need it</p>
+          </div>
+          <div class="perk">
+            <div class="perk-check">✓</div>
+            <p class="perk-text"><strong>Community access</strong> — connect with Helsinki's creatives and professionals</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="membership-right">
+        <h3>Join the founding member waitlist</h3>
+        <p class="sub">Be the first to know when membership opens — and receive founding member benefits.</p>
+        <form class="membership-form" id="membershipForm">
+          <input type="text" placeholder="Your first name" name="name">
+          <input type="email" placeholder="Your email address" required name="email">
+          <button type="submit" class="btn-primary">Reserve my spot</button>
+          <p class="form-note">No payment required now. We'll reach out with details before the launch. No spam — ever.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE / HOW IT WORKS -->
+<section class="experience" id="experience">
+  <div class="section-inner">
+    <div class="experience-columns">
+      <div class="experience-left">
+        <span class="section-tag">The daily ritual</span>
+        <h2 class="section-title">Your visit, your way</h2>
+        <p style="font-size:0.95rem; color:var(--text-mid); font-weight:300; line-height:1.75; margin-bottom:8px;">Whether you're staying for twenty minutes or the whole afternoon, Stillroom adapts to your rhythm.</p>
+
+        <div class="ritual-list">
+          <div class="ritual-step">
+            <span class="ritual-number">01</span>
+            <div class="ritual-content">
+              <h4>Arrive & decompress</h4>
+              <p>Step into a space designed to immediately lower the noise. Natural light, ambient sound, and unhurried air greet you at the door.</p>
+            </div>
+          </div>
+          <div class="ritual-step">
+            <span class="ritual-number">02</span>
+            <div class="ritual-content">
+              <h4>Order with intention</h4>
+              <p>Browse a menu built around quality and wellbeing — from single-origin espresso to adaptogen elixirs your body will thank you for.</p>
+            </div>
+          </div>
+          <div class="ritual-step">
+            <span class="ritual-number">03</span>
+            <div class="ritual-content">
+              <h4>Settle into your zone</h4>
+              <p>Find your corner — a quiet work nook, a soft lounge seat, or a sunny table by the plants. Stay as long as you need.</p>
+            </div>
+          </div>
+          <div class="ritual-step">
+            <span class="ritual-number">04</span>
+            <div class="ritual-content">
+              <h4>Leave restored, not depleted</h4>
+              <p>Walk back out into Helsinki with a clearer head, a better mood, and something to look forward to tomorrow.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="experience-right">
+        <div class="location-card">
+          <h3>📍 Find us in Helsinki</h3>
+          <div class="location-detail">
+            <span class="location-detail-icon">🏢</span>
+            <span>Siri Center, Helsinki city centre — easily reachable by metro, tram, and foot.</span>
+          </div>
+          <div class="location-detail">
+            <span class="location-detail-icon">🚇</span>
+            <span>Well connected to Helsinki's public transport network.</span>
+          </div>
+          <div class="location-detail">
+            <span class="location-detail-icon">🅿️</span>
+            <span>Bicycle parking and nearby public parking available.</span>
+          </div>
+          <div class="atmosphere-tags">
+            <span class="atm-tag">🌿 Living plant walls</span>
+            <span class="atm-tag">🪵 Natural wood</span>
+            <span class="atm-tag">🔇 Low noise</span>
+            <span class="atm-tag">🌤️ Natural light</span>
+            <span class="atm-tag">🎵 Ambient soundscapes</span>
+            <span class="atm-tag">♿ Fully accessible</span>
+          </div>
+        </div>
+
+        <div class="work-card">
+          <h3>💻 Built for focused work</h3>
+          <p style="font-size:0.85rem; color:rgba(232,221,211,0.6); margin-bottom:16px; font-weight:300; line-height:1.65;">Remote workers and freelancers have a proper home here. No awkward "please buy something every hour" pressure — just good infrastructure and a great atmosphere.</p>
+          <div class="work-features">
+            <span class="work-feat">High-speed WiFi</span>
+            <span class="work-feat">USB & power outlets</span>
+            <span class="work-feat">Bookable quiet nooks</span>
+            <span class="work-feat">All-day seating</span>
+            <span class="work-feat">Natural lighting</span>
+            <span class="work-feat">Members get priority</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="section-inner">
+    <div style="text-align:center; margin-bottom:56px;">
+      <span class="section-tag">Common questions</span>
+      <h2 class="section-title">Everything you'd want to know</h2>
+    </div>
+
+    <div class="faq-grid">
+      <div class="faq-item">
+        <h4>Do I need a membership to visit?</h4>
+        <p>Not at all. Stillroom is open to everyone during regular hours. Membership is for regulars who want the full benefits — unlimited filter drinks, priority seating, and community events.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Can I work here for a full day?</h4>
+        <p>Yes — and that's exactly what the space is designed for. We have quiet work zones, high-speed WiFi, and power outlets. Members get priority access to the bookable meeting nooks.</p>
+      </div>
+      <div class="faq-item">
+        <h4>What kind of food do you serve?</h4>
+        <p>Freshly made pastries, Nordic-inspired open sandwiches, seasonal salads, and plant-based options — all sourced from local Finnish suppliers. Light, nourishing, and never heavy.</p>
+      </div>
+      <div class="faq-item">
+        <h4>What are adaptogen drinks?</h4>
+        <p>Adaptogens are natural herbs and fungi — like ashwagandha, reishi, and lion's mane — that support the body's stress response. We blend them into delicious, functional drinks crafted by our baristas.</p>
+      </div>
+      <div class="faq-item">
+        <h4>How do I book a spot for an event?</h4>
+        <p>Members receive early access and invitations to all events via email. Non-members can check the upcoming events schedule in-store or by signing up for our community newsletter.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Is there dairy-free or plant-based options?</h4>
+        <p>Yes — all drinks can be made with oat, almond, or soy milk, and we always have plant-based food options on the menu. Just let your barista know your preferences.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Can I bring a meeting or small group?</h4>
+        <p>Absolutely. Our bookable meeting nooks are ideal for small professional meetings, creative sessions, or informal team catch-ups. Members can book these in advance.</p>
+      </div>
+      <div class="faq-item">
+        <h4>How do I join the founding member waitlist?</h4>
+        <p>Simply enter your name and email in the membership form above. We'll be in touch before launch with pricing details, founding member perks, and how to get started. No payment required now.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta" id="join">
+  <h2>Start your daily <em>ritual</em> in Helsinki</h2>
+  <p>Join the Stillroom community newsletter and be the first to hear about our opening, events, and founding membership launch.</p>
+  <form class="cta-form" id="ctaForm">
+    <input type="email" placeholder="Your email address" required name="email">
+    <button type="submit" class="btn-primary">Stay in the loop</button>
+  </form>
+  <p class="cta-note">No spam. Just meaningful updates from a café that values your attention as much as yours.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="footer-logo">Still<span>room</span></span>
+      <p class="footer-desc">A wellness-inspired café and intentional third place in Helsinki's Siri Center. Specialty coffee, adaptogen drinks, healthy bites, and a beautifully calm space for urban professionals and creatives.</p>
+      <p class="footer-address">
+        Siri Center, Helsinki, Finland<br>
+        Open daily · Mon–Fri 7:00–20:00 · Sat 8:00–19:00 · Sun 9:00–17:00
+      </p>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="#about">About Stillroom</a></li>
+        <li><a href="#offerings">Menu & Space</a></li>
+        <li><a href="#membership">Membership</a></li>
+        <li><a href="#experience">Find Us</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Community</h4>
+      <ul>
+        <li><a href="#join">Newsletter</a></li>
+        <li><a href="#membership">Events Waitlist</a></li>
+        <li><a href="#membership">Founding Members</a></li>
+        <li><a href="#experience">Work Zones</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© <span class="year"></span> Stillroom Helsinki. All rights reserved.</p>
+    <p>Powered by <a href="https://madmantra.com" target="_blank" rel="noopener">MadMantra</a></p>
+  </div>
+</footer>
+
+<script>
+  // Year
+  document.querySelectorAll('.year').forEach(e => e.textContent = new Date().getFullYear());
+
+  // Hamburger
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', function() {
+    navLinks.classList.toggle('open');
+  });
+
+  // Close nav on link click
+  navLinks.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      navLinks.classList.remove('open');
+    });
+  });
+
+  // Forms
+  document.querySelectorAll('form').forEach(function(form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var emailInput = form.querySelector('input[type="email"]');
+      if (!emailInput) return;
+      var email = emailInput.value;
+      fetch('https://api.madmantra.app/api/landing/stillroom/signup', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({email: email})
+      }).then(function() {
+        form.innerHTML = '<p style="padding:16px 0;color:#b8956a;font-weight:500;font-family:Inter,sans-serif;font-size:0.95rem;">Thanks! We\'ll be in touch soon. 🌿</p>';
+      }).catch(function() {
+        form.innerHTML = '<p style="padding:
+</body>
+</html>
